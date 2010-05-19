@@ -1,6 +1,7 @@
 ###################################################
 #                                                 #
 # NAME:     data-traffic                          #
+# VERSION:  0.1                                   #
 # INFO:     Control your network traffic          #
 #                                                 #
 # AUTHOR:   Stefano Viola (aka) Esteban Sannin    #
@@ -8,3 +9,19 @@
 # LICENSE:  GPLv3                                 #
 #                                                 #
 ###################################################                                       
+
+[COMPILING]:
+            For compiling use gcc:
+            gcc -o dtraffic implements.c data-traffic.c
+
+[RUN]:
+      ./dtraffic [interface] [mode]
+      [interface] = wlan0/eth0/ppp0 ec..
+      [mode] = down/up
+
+[EXAMPLE]:
+          ./dtraffic wlan0 down
+
+
+[NOTE]:
+        This version in not completed.
