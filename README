@@ -14,14 +14,19 @@
             For compiling use Makefile:
             make
 
-[RUN]:
-      ./dtraffic [interface] [mode]
-      [interface] = wlan0/eth0/ppp0 ec..
-      [mode] = down/up
+[INSTALL]:
+           with root user:
+           make install 
+
+[USAGE]:
+         dtraffic -i [interface] -m [mode]\n"
+         -i  <interface> indicate the interface to calculate the traffic rate
+         -m  <mode> indicate the mode for scanning interface: [ down | up ]
+
 
 [EXAMPLE]:
-          ./dtraffic wlan0 down
+          dtraffic -i wlan0 -m down
 
 
 [NOTE]:
-        This version in not completed.
+        This version is in testing.

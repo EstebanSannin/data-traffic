@@ -15,37 +15,50 @@
 #include <stdio.h>
 #include <string.h>
 
-//get byte 
 int get_byte_received(char *interface){
 
 #define NETWORK "/proc/net/dev"
 
         FILE *fp;
         char line[1024];
-        int iRet = 0;
         char *tok;
         int i,j; 
         int control_token = 0;
         int count_string_token = 0;
-        char *token_true; 
+        char *token_true;
+        int token2; 
         long long int number_byte;
-        //char *interface = "wlan0";
         char *final_down;
-       
+        
+        //printf("\nDOWN\n\n"); //debug
 
         fp = fopen(NETWORK, "r");
         if (fp != NULL) {
                 while (fgets(line, sizeof(line), fp)) {
-                        //char *s = "wlan";
                         tok = strtok(line," ");
                         count_string_token = 0;      
                         
                         while(tok != NULL){
+                                if(token2){
+                                        token2 = 0;
+                                        number_byte = atoll(tok);
+                                }
+
                                 count_string_token++;
                                 if(strstr(tok,interface)){
                                         control_token=1;
                                         token_true = strstr(tok,interface);           //search the interface in the string
                                         final_down = strchr(tok,':');                 //cut the byte download oh the interface
+
+                                        //printf("final_tok: %s\n",final_down);
+                                        //printf("strcmp: %d\n",strcmp(final_down,":"));
+                                        
+                                        int equal_string = strcmp(final_down,":");
+                                        if (equal_string == 0){
+                                        token2 = 1;
+                                        }else{
+                                        //printf("tok: %s\n",tok);
+
                                         char byte_down_temp[strlen(final_down)];      //array for temporary byte download
                                         strcpy(byte_down_temp, final_down);           //copy the string in to array byte_down
                                         
@@ -60,6 +73,7 @@ int get_byte_received(char *interface){
                                         }
                                         number_byte = atoll(byte_download);
                                         }
+                                        }
                 tok = strtok(NULL, " ");
                 }
                         }
@@ -68,14 +82,14 @@ int get_byte_received(char *interface){
         } else {
                 printf("Error!!\n\n");
         }
-      return number_byte; 
-}       
+        return number_byte;
+}     
 
 
 int get_byte_trasmitted(char *interface){
 
 #define NETWORK "/proc/net/dev"
-
+        int loop = 9;
         FILE *fp;
         char line[1024];
         int iRet = 0;
@@ -86,6 +100,7 @@ int get_byte_trasmitted(char *interface){
         char *token_true; 
         long long int number_byte;
         char *final_down;
+        int token2 = 0;
        
 
         fp = fopen(NETWORK, "r");
@@ -95,13 +110,28 @@ int get_byte_trasmitted(char *interface){
                         count_string_token = 0;      
                         
                         while(tok != NULL){
+                                //printf("tok1: %s\n",tok);
                                 count_string_token++;
                                 if(strstr(tok,interface)){
                                         control_token=1;
                                         token_true = strstr(tok,interface);             //search the interface in the string
+                                        
+                                        final_down = strchr(tok,':');                 //cut the byte download oh the interface
+                                        //printf("final_tok: %s\n",final_down);
+                                        //printf("strcmp: %d\n",strcmp(final_down,":"));
+                                        int equal_string = strcmp(final_down,":");
+                                        if(equal_string == 0){
+                                                token2 = 1;
                                         }
-                                if (count_string_token == 9 && control_token == 1){
+                                }
+                                if (token2 == 1){
+                                        loop++;
+                                        token2 = 0;
+                                        //printf("loop: %d\n",loop);
+                                }
+                                if (count_string_token == loop && control_token == 1){
                                         control_token = 0;
+                                        //printf("tok: %s\n",tok);
                                         number_byte = atoll(tok);
                                 }
                 tok = strtok(NULL, " ");
@@ -125,6 +155,7 @@ if(strcmp(mode,"down")==0){
         printf("Download mode on interface: %s\n\n",interface);
         for(i = 0; i<CLOCK ; i++){
         long long int first = get_byte_received(interface);
+        //printf("\n down byte: %lld\n",first);
         sleep(1);
         long long int second = get_byte_received(interface);
         long long int difference = second - first;
