@@ -11,8 +11,8 @@
 ###################################################                                       
 
 [COMPILING]:
-            For compiling use gcc:
-            gcc -o dtraffic implements.c data-traffic.c
+            For compiling use Makefile:
+            make
 
 [RUN]:
       ./dtraffic [interface] [mode]
