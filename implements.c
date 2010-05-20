@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <string.h>
 
-
+//get byte 
 int get_byte_received(char *interface){
 
 #define NETWORK "/proc/net/dev"
