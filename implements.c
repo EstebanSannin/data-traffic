@@ -44,17 +44,17 @@ int get_byte_received(char *interface){
                                 count_string_token++;
                                 if(strstr(tok,interface)){
                                         control_token=1;
-                                        token_true = strstr(tok,interface);             //search the interface in the string
-                                        final_down = strchr(tok,':');                   //cut the byte download oh the interface
-                                        char byte_down_temp[strlen(final_down)];        //array for temporary byte download
-                                        strcpy(byte_down_temp, final_down);             //copy the string in to array byte_down
+                                        token_true = strstr(tok,interface);           //search the interface in the string
+                                        final_down = strchr(tok,':');                 //cut the byte download oh the interface
+                                        char byte_down_temp[strlen(final_down)];      //array for temporary byte download
+                                        strcpy(byte_down_temp, final_down);           //copy the string in to array byte_down
                                         
-                                        i=1;                                            //for control
-                                        j = 0;                                          //for control
-                                        int dim = strlen(final_down);                   //computing the dimension for the array
+                                        i=1;                                          //for control
+                                        j = 0;                                        //for control
+                                        int dim = strlen(final_down);                 //computing the dimension for the array
                                         char byte_download[dim];
                                         
-                                        for(j = 0; j<(dim-1); j++){                     //get byte clean
+                                        for(j = 0; j<(dim-1); j++){                   //get byte clean
                                                 byte_download[j] = byte_down_temp[i];
                                                 i++;
                                         }
