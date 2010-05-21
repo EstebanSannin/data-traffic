@@ -37,13 +37,11 @@ int get_byte_received(char *interface){
                 while (fgets(line, sizeof(line), fp)) {
                         tok = strtok(line," ");
                         count_string_token = 0;      
-                        
                         while(tok != NULL){
                                 if(token2){
                                         token2 = 0;
                                         number_byte = atoll(tok);
                                 }
-
                                 count_string_token++;
                                 if(strstr(tok,interface)){
                                         control_token=1;
@@ -73,6 +71,11 @@ int get_byte_received(char *interface){
                                         }
                                         number_byte = atoll(byte_download);
                                         }
+                                        }else{
+                                                if(control_token !=1 ){
+                                                //printf("Interface not present\n");
+                                                number_byte = -1;
+                                                }
                                         }
                 tok = strtok(NULL, " ");
                 }
@@ -86,7 +89,7 @@ int get_byte_received(char *interface){
 }     
 
 
-int get_byte_trasmitted(char *interface){
+long long int get_byte_trasmitted(char *interface){
 
 #define NETWORK "/proc/net/dev"
         int loop = 9;
@@ -151,6 +154,15 @@ data_byte_rate(char *interface, char *mode){
         int i,j;
         double array_rate[CLOCK];
         double total, rate_average;
+        //if(get_byte_received==-1 || get_byte_trasmitted==-1){
+                  //printf("error interface! %lld\n",get_byte_trasmitted);
+        // }else{
+       long long int state = get_byte_received(interface);
+        if(state == -1){
+                 //printf("\n ERROR interface: %lld\n",state);
+                return 1;
+        }
+        else{
 if(strcmp(mode,"down")==0){
         printf("Download mode on interface: %s\n\n",interface);
         for(i = 0; i<CLOCK ; i++){
@@ -167,6 +179,7 @@ if(strcmp(mode,"down")==0){
         for(i = 0; i<CLOCK; i++){
         total +=array_rate[i];
         }
+        
         rate_average = total/CLOCK;
         printf("\nAverange Reception-rate:  %f kB/sec\n",rate_average);
 }else if (strcmp(mode,"up")==0){
@@ -189,6 +202,7 @@ if(strcmp(mode,"down")==0){
         //input mode error        
         return 1;
         }
+}
 return 0;
 }
 
