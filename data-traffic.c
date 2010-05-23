@@ -14,28 +14,20 @@
 #include <stdio.h>
 #include "include/data-traffic.h"
 
-//typedef long long int llint;
-
 int main(int argc, char *argv[]){
         int status=1;
-        //list_device();
-        
         version();
-        int parse = parse_line_parameters(argc, argv);
 
-        printf("parse main: %d\n",parse);
-        
-        
+        int parse = parse_line_parameters(argc, argv);
         if(parse == 2){ 
 
         status = data_byte_rate(argv[2],argv[4]);
-        /*if (status){
-                 printf("\n  [ERROR]: Missing Parameter! \n\n");
+        if (status == 1){
+                 printf("\n  [ERROR]: Mode Wrong! \n\n");
                  usage();
-        }*/}else{            
-              //  printf("\nTest Completed!\n\n");
+        }
+        }else{            
               return 1;
-              //printf("boooooooo\n");
         }
         return 0;
 }
