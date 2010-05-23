@@ -18,20 +18,24 @@
 
 int main(int argc, char *argv[]){
         int status=1;
-
+        //list_device();
+        
         version();
         int parse = parse_line_parameters(argc, argv);
-        //printf("parse: %d\n",parse);
-        if(parse){ 
+
+        printf("parse main: %d\n",parse);
+        
+        
+        if(parse == 2){ 
 
         status = data_byte_rate(argv[2],argv[4]);
-        if (status){
+        /*if (status){
                  printf("\n  [ERROR]: Missing Parameter! \n\n");
                  usage();
-        }else            
-                printf("\nTest Completed!\n\n");
-               
-
+        }*/}else{            
+              //  printf("\nTest Completed!\n\n");
+              return 1;
+              //printf("boooooooo\n");
         }
         return 0;
 }

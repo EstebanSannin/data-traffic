@@ -14,11 +14,12 @@
 
 #include <stdio.h>
 #include <string.h>
-
-int get_byte_received(char *interface){
-
+#include <stdlib.h>
+#include "include/implements.h"
 #define NETWORK "/proc/net/dev"
 
+
+long long int get_byte_received(char *interface){
         FILE *fp;
         char line[1024];
         char *tok;
@@ -30,13 +31,13 @@ int get_byte_received(char *interface){
         long long int number_byte;
         char *final_down;
         
-        //printf("\nDOWN\n\n"); //debug
-
+        int one_token = 0;
         fp = fopen(NETWORK, "r");
         if (fp != NULL) {
                 while (fgets(line, sizeof(line), fp)) {
                         tok = strtok(line," ");
-                        count_string_token = 0;      
+                        count_string_token = 0; 
+                   if (one_token == 0){     
                         while(tok != NULL){
                                 if(token2){
                                         token2 = 0;
@@ -47,25 +48,21 @@ int get_byte_received(char *interface){
                                         control_token=1;
                                         token_true = strstr(tok,interface);           //search the interface in the string
                                         final_down = strchr(tok,':');                 //cut the byte download oh the interface
-
                                         //printf("final_tok: %s\n",final_down);
                                         //printf("strcmp: %d\n",strcmp(final_down,":"));
-                                        
                                         int equal_string = strcmp(final_down,":");
                                         if (equal_string == 0){
                                         token2 = 1;
                                         }else{
                                         //printf("tok: %s\n",tok);
-
                                         char byte_down_temp[strlen(final_down)];      //array for temporary byte download
                                         strcpy(byte_down_temp, final_down);           //copy the string in to array byte_down
-                                        
                                         i=1;                                          //for control
                                         j = 0;                                        //for control
                                         int dim = strlen(final_down);                 //computing the dimension for the array
                                         char byte_download[dim];
-                                        
                                         for(j = 0; j<(dim-1); j++){                   //get byte clean
+                                                one_token = 1;
                                                 byte_download[j] = byte_down_temp[i];
                                                 i++;
                                         }
@@ -79,6 +76,7 @@ int get_byte_received(char *interface){
                                         }
                 tok = strtok(NULL, " ");
                 }
+                   }
                         }
                 
                 fclose(fp);
@@ -90,8 +88,6 @@ int get_byte_received(char *interface){
 
 
 long long int get_byte_trasmitted(char *interface){
-
-#define NETWORK "/proc/net/dev"
         int loop = 9;
         FILE *fp;
         char line[1024];
@@ -104,24 +100,20 @@ long long int get_byte_trasmitted(char *interface){
         long long int number_byte;
         char *final_down;
         int token2 = 0;
-       
-
+        
         fp = fopen(NETWORK, "r");
         if (fp != NULL) {
                 while (fgets(line, sizeof(line), fp)) {
                         tok = strtok(line," ");
                         count_string_token = 0;      
-                        
                         while(tok != NULL){
-                                //printf("tok1: %s\n",tok);
                                 count_string_token++;
                                 if(strstr(tok,interface)){
                                         control_token=1;
                                         token_true = strstr(tok,interface);             //search the interface in the string
-                                        
                                         final_down = strchr(tok,':');                 //cut the byte download oh the interface
-                                        //printf("final_tok: %s\n",final_down);
-                                        //printf("strcmp: %d\n",strcmp(final_down,":"));
+                                        //printf("final_tok up: %s\n",final_down);
+                                        //printf("strcmp up: %d\n",strcmp(final_down,":"));
                                         int equal_string = strcmp(final_down,":");
                                         if(equal_string == 0){
                                                 token2 = 1;
@@ -148,61 +140,61 @@ long long int get_byte_trasmitted(char *interface){
       return number_byte; 
 }
 
-data_byte_rate(char *interface, char *mode){
+//se la mode e` errata ritorna 1
+//de l'interfaccia e' errata ritorna 2
+//se tutto e' corretto ritorna 0
+int data_byte_rate(char *interface, char *mode){
 #define CLOCK 10
 
         int i,j;
         double array_rate[CLOCK];
-        double total, rate_average;
-        //if(get_byte_received==-1 || get_byte_trasmitted==-1){
-                  //printf("error interface! %lld\n",get_byte_trasmitted);
-        // }else{
-       long long int state = get_byte_received(interface);
-        if(state == -1){
-                 //printf("\n ERROR interface: %lld\n",state);
-                return 1;
+        double total = 0;
+        double rate_average;
+        int control_valid_interface = device(interface,0);
+        printf("%d\n",control_valid_interface);
+        if(control_valid_interface == 0){
+                if(strcmp(mode,"down")==0){
+                        printf("Download mode on interface: %s\n\n",interface);
+                        for(i = 0; i<CLOCK ; i++){
+                                long long int first = get_byte_received(interface);
+                                //printf("\n down byte: %lld\n",first);
+                                sleep(1);
+                                long long int second = get_byte_received(interface);
+                                long long int difference = second - first;
+                                double rate_down = difference/1024.00;
+                                array_rate[i] = rate_down;
+                                printf("Reception Rate: %lf    kB/sec\n", rate_down);
+                        }
+                        for(i = 0; i<CLOCK; i++){
+                                total = total+array_rate[i];
+                        }
+                        printf("total: %lf\n",total); 
+                        rate_average = total/10.00;
+                        printf("\nAverange Reception-rate:  %lf kB/sec\n",rate_average);
+                }else if (strcmp(mode,"up")==0){
+                        printf("Upload mode on interface: %s\n\n",interface);
+                        for(i = 0; i<CLOCK ; i++){
+                                long long int first_up = get_byte_trasmitted(interface);
+                                sleep(1);
+                                long long int second_up = get_byte_trasmitted(interface);
+                                long long int difference_up = second_up - first_up;
+                                double rate_down = difference_up/1024.00;
+                                array_rate[i] = rate_down;
+                                printf("Trasmission Rate: %lf    kB/sec\n", rate_down);
+                        }
+                        for(i = 0; i<CLOCK; i++){
+                                total +=array_rate[i];
+                        }
+                        rate_average = total/CLOCK;
+                        printf("\nAverange up-rate:  %f kB/sec\n",rate_average);
+                }else{
+                        //input mode error        
+                        return 1;
+                }
+        }else{
+                return 2;
+                //printf("Interface: %s not present\n",interface);
+                //device(interface,1);
         }
-        else{
-if(strcmp(mode,"down")==0){
-        printf("Download mode on interface: %s\n\n",interface);
-        for(i = 0; i<CLOCK ; i++){
-        long long int first = get_byte_received(interface);
-        //printf("\n down byte: %lld\n",first);
-        sleep(1);
-        long long int second = get_byte_received(interface);
-        long long int difference = second - first;
-        double rate_down = difference/1024.00;
-        array_rate[i] = rate_down;
-        printf("Reception Rate: %f    kB/sec\n", rate_down);
-        }
-        
-        for(i = 0; i<CLOCK; i++){
-        total +=array_rate[i];
-        }
-        
-        rate_average = total/CLOCK;
-        printf("\nAverange Reception-rate:  %f kB/sec\n",rate_average);
-}else if (strcmp(mode,"up")==0){
-        printf("Upload mode on interface: %s\n\n",interface);
-        for(i = 0; i<CLOCK ; i++){
-                long long int first_up = get_byte_trasmitted(interface);
-                sleep(1);
-                long long int second_up = get_byte_trasmitted(interface);
-                long long int difference_up = second_up - first_up;
-                double rate_down = difference_up/1024.00;
-                array_rate[i] = rate_down;
-                printf("Trasmission Rate: %f    kB/sec\n", rate_down);
-        }
-        for(i = 0; i<CLOCK; i++){
-                total +=array_rate[i];
-        }
-        rate_average = total/CLOCK;
-        printf("\nAverange up-rate:  %f kB/sec\n",rate_average);
-}else{
-        //input mode error        
-        return 1;
-        }
+        return 0;
 }
-return 0;
-}
-
