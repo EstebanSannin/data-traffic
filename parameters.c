@@ -17,13 +17,20 @@
 #include "include/parameters.h"
 
 //if the parser terminat correctly return 1
+//ritorna 2 se l'interfaccia di rete e' corretta
 int parse_line_parameters(int argc, char *argv[]){
         int status;
         //printf("argc: %d\n", argc);
         if (argc == 2){
+                printf("solo 1 arg\n");
                 if(!strcmp(argv[1],"-h")){
                         usage();
                         status = 1;
+                }else if(!strcmp(argv[1],"-l")){
+                        list_device();
+                        status = 1;
+                        printf("sto in lista device -l\n");
+
                 }else{
                         printf("\n  [ERROR]: Missing Parameter! \n\n");
                         usage();
@@ -33,8 +40,14 @@ int parse_line_parameters(int argc, char *argv[]){
 
         if (argc == 5){
                 if(!strcmp(argv[1],"-i") && !strcmp(argv[3],"-m")){
-                        status = 1;
-                        //print("5\n");
+                        int control_interface = device(argv[2],0);
+                        if(control_interface == 0){
+                        status = 2;
+                        printf("interface ok\n");
+                        }else{
+                                status = 0;
+                                list_device();
+                        }
                 }else{
                         usage();
                         status = 0;
@@ -47,6 +60,7 @@ int parse_line_parameters(int argc, char *argv[]){
                 status = 0;
         }
         }
+        printf("parse line parameters status: %d\n", status);
         return status;
 
 }
@@ -63,3 +77,11 @@ void version(){
                         " (C) 2010 - Stefano Viola\n\n");
 
 }
+void list_device(){
+        printf("List Network Interface:\n");
+        device("void",1);
+        printf("\n");
+}/*
+main(){
+list_device();
+}*/
