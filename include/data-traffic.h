@@ -13,7 +13,8 @@
 
 int data_byte_rate(char *interface, char *mode);
 int get_byte_received(char *interface);
-
+void device();
+void list_device();
 int parse_line_parameters(int argc, char *argv[]);
 void usage();
 void version();
