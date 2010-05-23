@@ -141,7 +141,7 @@ long long int get_byte_trasmitted(char *interface){
 }
 
 //se la mode e` errata ritorna 1
-//de l'interfaccia e' errata ritorna 2
+//se l'interfaccia e' errata ritorna 2
 //se tutto e' corretto ritorna 0
 int data_byte_rate(char *interface, char *mode){
 #define CLOCK 10
@@ -151,7 +151,7 @@ int data_byte_rate(char *interface, char *mode){
         double total = 0;
         double rate_average;
         int control_valid_interface = device(interface,0);
-        printf("%d\n",control_valid_interface);
+        //printf("%d\n",control_valid_interface);
         if(control_valid_interface == 0){
                 if(strcmp(mode,"down")==0){
                         printf("Download mode on interface: %s\n\n",interface);
@@ -168,9 +168,9 @@ int data_byte_rate(char *interface, char *mode){
                         for(i = 0; i<CLOCK; i++){
                                 total = total+array_rate[i];
                         }
-                        printf("total: %lf\n",total); 
+                        //printf("total: %lf\n",total); 
                         rate_average = total/10.00;
-                        printf("\nAverange Reception-rate:  %lf kB/sec\n",rate_average);
+                        printf("\n\tAverange Reception-rate:  %lf kB/sec\n\n",rate_average);
                 }else if (strcmp(mode,"up")==0){
                         printf("Upload mode on interface: %s\n\n",interface);
                         for(i = 0; i<CLOCK ; i++){
@@ -186,9 +186,9 @@ int data_byte_rate(char *interface, char *mode){
                                 total +=array_rate[i];
                         }
                         rate_average = total/CLOCK;
-                        printf("\nAverange up-rate:  %f kB/sec\n",rate_average);
+                        printf("\n\tAverange up-rate:  %f kB/sec\n\n",rate_average);
                 }else{
-                        //input mode error        
+                        //printf("input mode error\n");        
                         return 1;
                 }
         }else{
