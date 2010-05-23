@@ -19,9 +19,11 @@
            make install 
 
 [USAGE]:
-         dtraffic -i [interface] -m [mode]\n"
+         dtraffic -i [interface] -m [mode]
          -i  <interface> indicate the interface to calculate the traffic rate
          -m  <mode> indicate the mode for scanning interface: [ down | up ]
+	 -l  Print the list of network interfaces
+         -h  Print this help message.
 
 
 [EXAMPLE]:
