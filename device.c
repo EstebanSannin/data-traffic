@@ -1,3 +1,20 @@
+/*
+ *
+ * AUTHOR:   Stefano Viola (aka) Esteban Sannin
+ * CONTACT:  stefanoviola[at]sannioglug[dot]org
+ * HOME:     http://esteban.homelinux.org   
+ *
+ *     Licenze GLPv3
+ *     This program is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License
+ *     as published by the Free Software Foundation; either version
+ *     3 of the License, or (at your option) any later version.
+ *
+ */
+
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,7 +53,7 @@ int device(char *input_interface, int list){
         if(list == 1){
                 int j;
                 for(j=0; j<=tot; j++){
-                        printf("%s\n",array_interface[j]);
+                        printf("---> %s\n",array_interface[j]);
                 }
                 status_interface = 0;
         }else{
