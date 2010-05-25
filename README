@@ -27,7 +27,8 @@
 
 
 [EXAMPLE]:
-          dtraffic -i wlan0 -m down
+          dtraffic -i wlan0 -m down ---> scan wlan0 interface in download mode
+          dtraffic -l               ---> print the list of network interface
 
 
 [NOTE]:
