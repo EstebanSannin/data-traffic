@@ -1,7 +1,7 @@
 ###################################################
 #                                                 #
 # NAME:     data-traffic                          #
-# VERSION:  0.1                                   #
+# VERSION:  0.9                                   #
 # INFO:     Control your network traffic          #
 #                                                 #
 # AUTHOR:   Stefano Viola (aka) Esteban Sannin    #
@@ -31,5 +31,5 @@
           dtraffic -l               ---> print the list of network interface
 
 
-[NOTE]:
-        This version is in testing.
+[NOTE]: 
+        version 0.9

@@ -71,7 +71,7 @@ void usage(){
 }
 
 void version(){
-        fprintf(stderr,"\n Data-Traffic v0.1 BETA\n"
+        fprintf(stderr,"\n Data-Traffic v0.9 \n"
                         " Date Build: may 2010\n"
                         " (C) 2010 - Stefano Viola\n\n");
 

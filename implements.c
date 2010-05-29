@@ -48,13 +48,10 @@ long long int get_byte_received(char *interface){
                                         control_token=1;
                                         token_true = strstr(tok,interface);           //search the interface in the string
                                         final_down = strchr(tok,':');                 //cut the byte download oh the interface
-                                        //printf("final_tok: %s\n",final_down);
-                                        //printf("strcmp: %d\n",strcmp(final_down,":"));
                                         int equal_string = strcmp(final_down,":");
                                         if (equal_string == 0){
                                         token2 = 1;
                                         }else{
-                                        //printf("tok: %s\n",tok);
                                         char byte_down_temp[strlen(final_down)];      //array for temporary byte download
                                         strcpy(byte_down_temp, final_down);           //copy the string in to array byte_down
                                         i=1;                                          //for control
@@ -70,7 +67,6 @@ long long int get_byte_received(char *interface){
                                         }
                                         }else{
                                                 if(control_token !=1 ){
-                                                //printf("Interface not present\n");
                                                 number_byte = -1;
                                                 }
                                         }
@@ -112,8 +108,6 @@ long long int get_byte_trasmitted(char *interface){
                                         control_token=1;
                                         token_true = strstr(tok,interface);             //search the interface in the string
                                         final_down = strchr(tok,':');                 //cut the byte download oh the interface
-                                        //printf("final_tok up: %s\n",final_down);
-                                        //printf("strcmp up: %d\n",strcmp(final_down,":"));
                                         int equal_string = strcmp(final_down,":");
                                         if(equal_string == 0){
                                                 token2 = 1;
@@ -122,11 +116,9 @@ long long int get_byte_trasmitted(char *interface){
                                 if (token2 == 1){
                                         loop++;
                                         token2 = 0;
-                                        //printf("loop: %d\n",loop);
                                 }
                                 if (count_string_token == loop && control_token == 1){
                                         control_token = 0;
-                                        //printf("tok: %s\n",tok);
                                         number_byte = atoll(tok);
                                 }
                 tok = strtok(NULL, " ");
@@ -151,13 +143,11 @@ int data_byte_rate(char *interface, char *mode){
         double total = 0;
         double rate_average;
         int control_valid_interface = device(interface,0);
-        //printf("%d\n",control_valid_interface);
         if(control_valid_interface == 0){
                 if(strcmp(mode,"down")==0){
                         printf("Download mode on interface: %s\n\n",interface);
                         for(i = 0; i<CLOCK ; i++){
                                 long long int first = get_byte_received(interface);
-                                //printf("\n down byte: %lld\n",first);
                                 sleep(1);
                                 long long int second = get_byte_received(interface);
                                 long long int difference = second - first;
@@ -168,7 +158,6 @@ int data_byte_rate(char *interface, char *mode){
                         for(i = 0; i<CLOCK; i++){
                                 total = total+array_rate[i];
                         }
-                        //printf("total: %lf\n",total); 
                         rate_average = total/10.00;
                         printf("\n\tAverange Reception-rate:  %lf kB/sec\n\n",rate_average);
                 }else if (strcmp(mode,"up")==0){
@@ -188,13 +177,10 @@ int data_byte_rate(char *interface, char *mode){
                         rate_average = total/CLOCK;
                         printf("\n\tAverange up-rate:  %f kB/sec\n\n",rate_average);
                 }else{
-                        //printf("input mode error\n");        
                         return 1;
                 }
         }else{
                 return 2;
-                //printf("Interface: %s not present\n",interface);
-                //device(interface,1);
         }
         return 0;
 }

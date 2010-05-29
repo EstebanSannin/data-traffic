@@ -60,19 +60,11 @@ int device(char *input_interface, int list){
                 //controllo se l'interfaccia di rete passata in input e' corretta
                 for(x=0; x<=tot; x++){
                         true_interface = strcmp(array_interface[x],input_interface);
-                        //printf("true_interface: %d\n",true_interface);
                         if(true_interface == 0)
                         status_interface = 0;
                 }
-                //printf("trovata: %d\n",control_interface);
         }
                return status_interface;   
 }
 
-/*
-int main(int argc, char *argv[]){
-                int pippo = device(argv[1],1);
-            printf("status: %d\n",pippo);
-              return 0;
-}*/
 
