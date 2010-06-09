@@ -11,12 +11,13 @@
  *      3 of the License, or (at your option) any later version.
  *
  */
+
 #include <stdio.h>
 #include "include/data-traffic.h"
 
 int main(int argc, char *argv[]){
         int status=1;
-        version();
+        version();   //print the information of software
 
         int parse = parse_line_parameters(argc, argv);
         if(parse == 2){ 
