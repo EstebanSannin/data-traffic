@@ -1,4 +1,9 @@
-
+#
+# Author:   Stefano Viola
+# Licenze:  GPLv3
+#
+#
+#
 NAME = dtraffic
 CC = gcc
 all:
