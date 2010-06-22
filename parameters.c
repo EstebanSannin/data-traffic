@@ -29,7 +29,7 @@ int parse_line_parameters(int argc, char *argv[]){
                         status = 1;
 
                 }else{
-                        printf("\n  [ERROR]: Missing Parameter! \n\n");
+                        printf("\n  [ERROR]: Missing Parameters! \n\n");
                         usage();
                         status = 0;
                 }
@@ -48,11 +48,11 @@ int parse_line_parameters(int argc, char *argv[]){
                 }else{
                         usage();
                         status = 0;
-                        printf("\n  [ERROR]: Missing Parameter! \n\n");
+                        printf("\n  [ERROR]: Missing Parameters! \n\n");
                 }
         
         }else{
-                printf("\n  [ERROR]: Missing Parameter! \n\n");
+                printf("\n  [ERROR]: Missing Parameters! \n\n");
                 usage();
                 status = 0;
         }
@@ -62,8 +62,8 @@ int parse_line_parameters(int argc, char *argv[]){
 }
 void usage(){
         fprintf(stderr,"\n  [USAGE]:  dtraffic -i [interface] -m [mode]\n"
-                        "\t    -i  <interface> setting the interface to calculate the traffic rate\n"
-                        "\t    -m  <mode> setting the mode for scanning interface: [ down | up ]\n"
+                        "\t    -i  <interface> set the interface to calculate the traffic rate\n"
+                        "\t    -m  <mode> set the mode for scanning interface: [ down | up ]\n"
                         "\t    -l  Print the list of network interfaces\n"
                         "\t    -h  Print this help message.\n\n"  
                        "  [EXAMPLE]: dtraffic -i wlan0 -m down\n"

@@ -153,13 +153,13 @@ int data_byte_rate(char *interface, char *mode){
                                 long long int difference = second - first;
                                 double rate_down = difference/1024.00;
                                 array_rate[i] = rate_down;
-                                printf("Reception Rate: %lf    kB/sec\n", rate_down);
+                                printf("Reception Rate: %lf    kB/s\n", rate_down);
                         }
                         for(i = 0; i<CLOCK; i++){
                                 total = total+array_rate[i];
                         }
                         rate_average = total/10.00;
-                        printf("\n\tAverange Reception-rate:  %lf kB/sec\n\n",rate_average);
+                        printf("\n\tAverage Reception-rate:  %lf kB/s\n\n",rate_average);
                 }else if (strcmp(mode,"up")==0){
                         printf("Upload mode on interface: %s\n\n",interface);
                         for(i = 0; i<CLOCK ; i++){
@@ -169,13 +169,13 @@ int data_byte_rate(char *interface, char *mode){
                                 long long int difference_up = second_up - first_up;
                                 double rate_down = difference_up/1024.00;
                                 array_rate[i] = rate_down;
-                                printf("Trasmission Rate: %lf    kB/sec\n", rate_down);
+                                printf("Trasmission Rate: %lf    kB/s\n", rate_down);
                         }
                         for(i = 0; i<CLOCK; i++){
                                 total +=array_rate[i];
                         }
                         rate_average = total/CLOCK;
-                        printf("\n\tAverange up-rate:  %f kB/sec\n\n",rate_average);
+                        printf("\n\tAverage up-rate:  %lf kB/s\n\n",rate_average);
                 }else{
                         return 1;
                 }
