@@ -4,11 +4,10 @@
 #
 #
 #
-NAME = dtraffic
-CC = gcc
-all:
-	$(CC) -o $(NAME) implements.c data-traffic.c
+NAME = ethFix
 
-install:
-	cp $(NAME) /bin
-	rm dtraffic
+all: compile
+	
+
+compile:
+	$(CC) -o $(NAME) implements.c main.c

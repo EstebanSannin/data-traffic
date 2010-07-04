@@ -150,24 +150,26 @@ int command(char *command){
 }
 void blink_led(){
 	int i;
-	for (i = 0; i<15; i++){
+	for (i = 0; i<10; i++){
 	command("ledctrl Ethernet On");
 	command("ledctrl Ethernet Off");
 	}
+	command("ledctrl Ethernet On");
 	
 }
 
-int data_byte_rate(char *interface, char *mode){
+int data_byte_rate(){
 #define CLOCK 10
 
         int i,j;
+	int control = 0;
         double array_rate[CLOCK];
         double total = 0;
         double rate_average;
-                        printf("Download mode on interface: %s\n\n",interface);
+
                         for(;;){
-                                long long int first = get_byte_received(interface);
-                                long long int first_up = get_byte_trasmitted(interface);
+                                long long int first = get_byte_received("eth1");
+                                long long int first_up = get_byte_trasmitted("eth1");
 				
 				long long int first2 = get_byte_received("eth0");
 				long long int first_up2 = get_byte_trasmitted("eth0");
@@ -177,8 +179,8 @@ int data_byte_rate(char *interface, char *mode){
 				long long int second2 = get_byte_received("eth0");
 				long long int second_up2 = get_byte_trasmitted("eth0");
 				
-				long long int second = get_byte_received(interface);
-				long long int second_up = get_byte_trasmitted(interface);
+				long long int second = get_byte_received("eth1");
+				long long int second_up = get_byte_trasmitted("eth1");
 				
 				long long int difference = second - first;
 				long long int difference2 = second2 - first2;
@@ -187,21 +189,32 @@ int data_byte_rate(char *interface, char *mode){
 				long long int difference_up2 = second_up2 - first_up2;
 			
 					
-				printf("difference: %lld  difference2: %lld \n",difference,difference2);
-				printf("difference up: %lld difference up2: %lld \n",difference_up, difference_up2);
+				//printf("difference: %lld  difference2: %lld \n",difference,difference2);
+				//printf("difference up: %lld difference up2: %lld \n",difference_up, difference_up2);
 
 				if (difference != 0 || difference2 != 0){
-					command("ledctrl Ethernet FastBlinkContinues");
+					if (difference > 1200 || difference2 > 1200){
+						blink_led();
+					}else{
+						command("ledctrl Ethernet On");
+					}
 
 				}
 				else{
 					command("ledctrl Ethernet Off");
 				}
-					if (difference_up != 0 || difference_up2 !=0){
-		      				command("ledctrl Ethernet FastBlinkContinues");				
+				if (difference_up != 0 || difference_up2 !=0){
+					if (difference_up > 1200 || difference_up2 > 1200){
+						blink_led();
+					}else{
+						command("ledctrl Ethernet On");
 					}
-						else{
-							command("ledctrl Ethernet Off");
-						}
+				}
+				else{
+					command("ledctrl Ethernet Off");
+					control++;
+				}
+				
+
 	}
 }

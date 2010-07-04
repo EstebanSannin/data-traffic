@@ -1,4 +1,5 @@
 /*
+ *
  * AUTHOR:   Stefano Viola (aka) Esteban Sannin
  * CONTACT:  stefanoviola[at]sannioglug[dot]org
  * HOME:     http://esteban.homelinux.org   
@@ -11,4 +12,10 @@
  *
  */
 
-int data_byte_rate();
+#include <stdio.h>
+#include "include/data-traffic.h"
+
+int main(int argc, char *argv[]){
+
+        data_byte_rate();
+}

@@ -1,0 +1,22 @@
+
+
+NAME:    ethFix
+AUTHOR:  Stefano Viola (aka) Esteban Sannin
+CONTACT: stefanoviola@sannioglug.org
+SITE:	 http://esteban.homelinux.org
+
+
+
+NOTE:
+	ethFix e` una piccola applicazione scritta in C che risolve il grande bug del led
+	eth presente su tutti i firmware USR based per il router AGA (Alece Gate 2 plus Wi-Fi)
+	
+
+COMPILING:
+	   Requisiti per la compilazione:
+	   - Un S.O. GNU/Linux
+	   - Toolchain Pirelli/USRobotics
+	   
+	   Una volta soddisfatti i requisiti vi bastera` esportare le giuste variabili d'ambiente e dare in una consol 
+		make
+	
