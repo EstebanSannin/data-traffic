@@ -158,6 +158,64 @@ void blink_led(){
 	
 }
 
+
+/* Function plug_state():
+ * return  1 ---> if the cable eth is plugged
+ * return -1 ---> if the cable eth is not plugged
+ * return -2 ---> if don't read /var/lan/ethX/linkstate file
+ */
+int plug_state(){
+
+#define ETH0 "/var/lan/eth0/linkstate"
+#define ETH1 "/var/lan/eth1/linkstate"	
+
+	FILE *feth1, *feth0;
+	char line[1024], line2[1024];
+	int status_eth0 = 0;
+	int status_eth1 = 0;
+	int status_plug = 0;
+	feth0 = fopen(ETH0, "r");
+	feth1 = fopen(ETH1, "r");
+
+	if(feth0 != NULL) {
+		while (fgets(line, sizeof(line), feth0)){
+			int compare = strcmp(line,"1");
+			//printf("%s",line);
+			if(compare != -1){
+				status_eth0 = 1;
+			}else{
+				status_eth0 = -1;
+			}
+		}
+		fclose(feth0);
+	} else {
+		status_plug = -2;
+	}
+	
+	if(feth1 != NULL) {
+		while (fgets(line2, sizeof(line2), feth1)){
+			int compare = strcmp(line2,"1");
+			//printf("%s",line2);
+			if(compare != -1){
+				status_eth1 = 1;
+			}else{
+				status_eth1 = -1;
+			}
+		}
+		fclose(feth1);
+	} else {
+		status_plug = -2;
+	}
+
+	if(status_eth0 == 1 || status_eth1 == 1)
+		status_plug = 1;
+	else
+		status_plug = -1;
+
+	return status_plug;
+	
+}
+
 int data_byte_rate(){
 #define CLOCK 10
 
@@ -191,28 +249,32 @@ int data_byte_rate(){
 					
 				//printf("difference: %lld  difference2: %lld \n",difference,difference2);
 				//printf("difference up: %lld difference up2: %lld \n",difference_up, difference_up2);
-
-				if (difference != 0 || difference2 != 0){
-					if (difference > 1200 || difference2 > 1200){
-						blink_led();
-					}else{
-						command("ledctrl Ethernet On");
+			//	printf("state: %d\n",plug_state());
+				if(plug_state() == 1){
+					command("ledctrl Ethernet On");
+					if (difference != 0 || difference2 != 0){
+						if (difference > 1200 || difference2 > 1200){
+							blink_led();
+						}else{
+							command("ledctrl Ethernet On");
+						}
+						
 					}
-
-				}
-				else{
-					command("ledctrl Ethernet Off");
-				}
-				if (difference_up != 0 || difference_up2 !=0){
-					if (difference_up > 1200 || difference_up2 > 1200){
-						blink_led();
-					}else{
-						command("ledctrl Ethernet On");
+					//else{
+					//	command("ledctrl Ethernet Off");
+					//}
+					if (difference_up != 0 || difference_up2 !=0){
+						if (difference_up > 1200 || difference_up2 > 1200){
+							blink_led();
+						}else{
+							command("ledctrl Ethernet On");
+						}
 					}
-				}
-				else{
+					//else{
+					//	command("ledctrl Ethernet Off");
+					//}
+				}else{
 					command("ledctrl Ethernet Off");
-					control++;
 				}
 				
 

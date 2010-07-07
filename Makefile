@@ -5,9 +5,9 @@
 #
 #
 NAME = ethFix
-
+VERSION = `date "+%d%m%y_%H%M"`
 all: compile
 	
 
 compile:
-	$(CC) -o $(NAME) implements.c main.c
+	$(CC) -o $(NAME)-$(VERSION) implements.c main.c

@@ -12,3 +12,4 @@
  */
 
 int data_byte_rate();
+int plug_state();

@@ -17,5 +17,7 @@
 
 int main(int argc, char *argv[]){
 
-        data_byte_rate();
+ data_byte_rate();
+//int plug = plug_state();
+ //printf("state plug: %i\n",plug);
 }
