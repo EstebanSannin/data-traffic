@@ -10,8 +10,8 @@ SITE:	  http://esteban.homelinux.org
 NOTE:
 	ethFix e` una piccola applicazione scritta in C che risolve il grande bug del led
 	eth presente su tutti i firmware USR based per il router AGA (Alece Gate 2 plus Wi-Fi)
-	In pratica appena collegherete il router con il cavo ethernet il led lampeggera` non appena
-	ci sara` traffico di rete.
+	In pratica appena collegherete il router con il cavo ethernet il led si accendera` rilevando il
+	collegamento, dopodiche` appena ci sara` traffico di rete il led iniziera` a lampeggiare
 	
 
 COMPILING:
@@ -19,6 +19,11 @@ COMPILING:
 	   - Un S.O. GNU/Linux
 	   - Toolchain Pirelli/USRobotics
 	   
-	   Una volta soddisfatti i requisiti vi bastera` esportare le giuste variabili d'ambiente e dare in una consol 
+	   per installare la toolchain potete far riferimento al sito di Umbacos: http://umbacos.altervista.org/aga/toolchain.html
+
+	   Appena il vostro ambiente sara` pronto bastera` dare:
+
 		make
+	   e otterrete il binario compilato per il vostro router.
+
 	
