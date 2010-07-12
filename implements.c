@@ -217,15 +217,6 @@ int plug_state(){
 }
 
 int data_byte_rate(int rate){
-#define CLOCK 10
-
-        int i,j;
-	int control = 0;
-        double array_rate[CLOCK];
-        double total = 0;
-        double rate_average;
-
-	printf("rate: %d\n",rate);
 
                         for(;;){
                                 long long int first = get_byte_received("eth1");
@@ -234,7 +225,7 @@ int data_byte_rate(int rate){
 				long long int first2 = get_byte_received("eth0");
 				long long int first_up2 = get_byte_trasmitted("eth0");
 
-				sleep(2);
+				sleep(1);
                                 
 				long long int second2 = get_byte_received("eth0");
 				long long int second_up2 = get_byte_trasmitted("eth0");
@@ -251,7 +242,8 @@ int data_byte_rate(int rate){
 					
 				//printf("difference: %lld  difference2: %lld \n",difference,difference2);
 				//printf("difference up: %lld difference up2: %lld \n",difference_up, difference_up2);
-			//	printf("state: %d\n",plug_state());
+				//printf("state: %d\n",plug_state());
+
 				if(plug_state() == 1){
 					command("ledctrl Ethernet On");
 					if (difference != 0 || difference2 != 0){
@@ -262,19 +254,13 @@ int data_byte_rate(int rate){
 						}
 						
 					}
-					//else{
-					//	command("ledctrl Ethernet Off");
-					//}
 					if (difference_up != 0 || difference_up2 !=0){
-						if (difference_up > 1200 || difference_up2 > 1200){
+						if (difference_up > rate || difference_up2 > rate){
 							blink_led();
 						}else{
 							command("ledctrl Ethernet On");
 						}
 					}
-					//else{
-					//	command("ledctrl Ethernet Off");
-					//}
 				}else{
 					command("ledctrl Ethernet Off");
 				}

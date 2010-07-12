@@ -17,13 +17,16 @@
 #include <unistd.h>
 
 int main(int argc, char *argv[]){
-	printf("%d\n",argc);
-	if (argc < 1 || argc > 2){
-		rate == 1200;
+	int rate;
+	//printf("%d\n",argc);
+	if (argc == 2){
+		rate = atoi(argv[1]);
+		if(rate == 0){
+			rate = 1200;
+			printf("rate default: %d\n",rate);
+		}
 	} else {
-		int rate = atoi(argv[1]);
-		if (rate == 0)
-			rate == 1200;
+		rate = 1200;
 	}
 	int pid;
 	if(fork()) return 0;
@@ -33,7 +36,7 @@ int main(int argc, char *argv[]){
 	pid=fork();
 	if(pid){
 		printf("Ethernet fix started with pid %d\n",pid);
-		printf("Blinking led to datarate %d\n",rate);
+		printf("Blinking led to data rate: %d\n",rate);
 		exit(1);
 	}
 	close(STDIN_FILENO);
