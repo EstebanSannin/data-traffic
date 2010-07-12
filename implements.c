@@ -216,7 +216,7 @@ int plug_state(){
 	
 }
 
-int data_byte_rate(){
+int data_byte_rate(int rate){
 #define CLOCK 10
 
         int i,j;
@@ -224,6 +224,8 @@ int data_byte_rate(){
         double array_rate[CLOCK];
         double total = 0;
         double rate_average;
+
+	printf("rate: %d\n",rate);
 
                         for(;;){
                                 long long int first = get_byte_received("eth1");
@@ -253,7 +255,7 @@ int data_byte_rate(){
 				if(plug_state() == 1){
 					command("ledctrl Ethernet On");
 					if (difference != 0 || difference2 != 0){
-						if (difference > 1200 || difference2 > 1200){
+						if (difference > rate || difference2 > rate){
 							blink_led();
 						}else{
 							command("ledctrl Ethernet On");

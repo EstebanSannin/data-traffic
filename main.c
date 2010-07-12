@@ -14,10 +14,31 @@
 
 #include <stdio.h>
 #include "include/data-traffic.h"
+#include <unistd.h>
 
 int main(int argc, char *argv[]){
-
- data_byte_rate();
-//int plug = plug_state();
- //printf("state plug: %i\n",plug);
+	printf("%d\n",argc);
+	if (argc < 1 || argc > 2){
+		rate == 1200;
+	} else {
+		int rate = atoi(argv[1]);
+		if (rate == 0)
+			rate == 1200;
+	}
+	int pid;
+	if(fork()) return 0;
+	chdir("/");
+	setsid();
+	umask(0);
+	pid=fork();
+	if(pid){
+		printf("Ethernet fix started with pid %d\n",pid);
+		printf("Blinking led to datarate %d\n",rate);
+		exit(1);
+	}
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	data_byte_rate(rate);
 }
+
