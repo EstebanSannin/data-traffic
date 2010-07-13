@@ -23,10 +23,11 @@ int main(int argc, char *argv[]){
 		rate = atoi(argv[1]);
 		if(rate == 0){
 			rate = 1200;
-			printf("rate default: %d\n",rate);
+			//printf("Start with default rate: %d\n",rate);
 		}
 	} else {
 		rate = 1200;
+		//printf("Start with default rate: %d\n",rate);
 	}
 	int pid;
 	if(fork()) return 0;
