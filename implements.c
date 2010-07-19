@@ -136,7 +136,9 @@ long long int get_byte_trasmitted(char *interface){
 //se l'interfaccia e' errata ritorna 2
 //se tutto e' corretto ritorna 0
 int data_byte_rate(char *interface, char *mode){
-#define CLOCK 10
+
+//	if(CLOCK == 0)
+int CLOCK = 10;
 
         int i,j;
         double array_rate[CLOCK];

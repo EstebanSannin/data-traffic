@@ -28,7 +28,10 @@ int parse_line_parameters(int argc, char *argv[]){
                         list_device();
                         status = 1;
 
-                }else{
+                }else if(!strcmp(argv[1],"-t")){
+			printf("\nModalita` -t\n");
+
+		}else{
                         printf("\n  [ERROR]: Missing Parameters! \n\n");
                         usage();
                         status = 0;
