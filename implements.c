@@ -16,6 +16,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "include/implements.h"
+
 #define NETWORK "/proc/net/dev"
 
 
@@ -149,17 +150,28 @@ int command(char *command){
 	return status;
 }
 void blink_led(){
-	int i;
-	for (i = 0; i<10; i++){
+	//int i;
+	//for (i = 0; i<10; i++){
 	command("ledctrl Ethernet On");
 	command("ledctrl Ethernet Off");
-	}
+	command("ledctrl Ethernet On");
+	command("ledctrl Ethernet Off");
+	command("ledctrl Ethernet On");
+	command("ledctrl Ethernet Off");
+	command("ledctrl Ethernet On");
+	command("ledctrl Ethernet Off");
+	command("ledctrl Ethernet On");
+	command("ledctrl Ethernet Off");
+	//}
 	command("ledctrl Ethernet On");
 	
 }
 
 
-/* Function plug_state():
+/* Function plug_state:
+ * Control the plug state of the ethernet cable
+ *
+ * Function plug_state() return status:
  * return  1 ---> if the cable eth is plugged
  * return -1 ---> if the cable eth is not plugged
  * return -2 ---> if don't read /var/lan/ethX/linkstate file
@@ -216,7 +228,10 @@ int plug_state(){
 	
 }
 
+
 int data_byte_rate(int rate){
+
+	rate = rate*2;
 
                         for(;;){
                                 long long int first = get_byte_received("eth1");
@@ -225,14 +240,16 @@ int data_byte_rate(int rate){
 				long long int first2 = get_byte_received("eth0");
 				long long int first_up2 = get_byte_trasmitted("eth0");
 
-				sleep(1);
+				sleep(2);
                                 
 				long long int second2 = get_byte_received("eth0");
 				long long int second_up2 = get_byte_trasmitted("eth0");
 				
 				long long int second = get_byte_received("eth1");
 				long long int second_up = get_byte_trasmitted("eth1");
-				
+			
+				// Calculate the data rate
+
 				long long int difference = second - first;
 				long long int difference2 = second2 - first2;
 				
